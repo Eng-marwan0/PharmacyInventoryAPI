@@ -77,7 +77,7 @@ public class BatchService : IBatchService
             ManufactureDate = dto.ManufactureDate,
             ExpiryDate = dto.ExpiryDate,
             Supplier = dto.Supplier,
-            Status = dto.ExpiryDate.Date <= DateTime.UtcNow.Date ? BatchStatus.Expired : BatchStatus.Active,
+            Status = dto.ExpiryDate.Date < DateTime.UtcNow.Date ? BatchStatus.Expired : BatchStatus.Active,
             ReceivedDate = DateTime.UtcNow,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
