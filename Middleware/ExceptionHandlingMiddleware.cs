@@ -41,6 +41,12 @@ public class ExceptionHandlingMiddleware
             _logger.LogError(exception, "Unhandled exception occurred");
         }
 
+        if (context.Response.HasStarted)
+        {
+            _logger.LogWarning(exception, "Response has already started, cannot write error response");
+            return;
+        }
+
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)statusCode;
 

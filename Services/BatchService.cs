@@ -167,7 +167,7 @@ public class BatchService : IBatchService
                         $"Insufficient stock. Available: {batch.Quantity}, Requested: {dto.Quantity}");
                 }
                 batch.Quantity -= dto.Quantity;
-                if (batch.Quantity == 0) batch.Status = BatchStatus.Depleted;
+                if (batch.Quantity == 0 && batch.Status == BatchStatus.Active) batch.Status = BatchStatus.Depleted;
                 break;
 
             case TransactionType.Received:
