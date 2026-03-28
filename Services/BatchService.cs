@@ -126,10 +126,10 @@ public class BatchService : IBatchService
         var batch = await _context.Batches.FindAsync(id);
         if (batch == null) return false;
 
-        if (batch.Status == BatchStatus.Active && batch.Quantity > 0)
+        if (batch.Quantity > 0)
         {
             throw new InvalidOperationException(
-                "Cannot delete an active batch with remaining stock. Change status or adjust quantity first.");
+                "Cannot delete a batch with remaining stock. Deplete or adjust quantity first.");
         }
 
         var transactions = await _context.StockTransactions.Where(t => t.BatchId == id).ToListAsync();

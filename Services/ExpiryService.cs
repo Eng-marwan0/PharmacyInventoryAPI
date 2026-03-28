@@ -121,7 +121,7 @@ public class ExpiryService : IExpiryService
             var stock = m.Batches
                 .Where(b => b.Status == BatchStatus.Active)
                 .Sum(b => b.Quantity);
-            return stock <= m.ReorderLevel;
+            return stock < m.ReorderLevel;
         });
 
         var totalValue = activeBatches.Sum(b => b.Quantity * b.UnitPrice);

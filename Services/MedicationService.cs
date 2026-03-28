@@ -141,7 +141,7 @@ public class MedicationService : IMedicationService
                 var totalStock = m.Batches
                     .Where(b => b.Status == BatchStatus.Active)
                     .Sum(b => b.Quantity);
-                return totalStock <= m.ReorderLevel;
+                return totalStock < m.ReorderLevel;
             })
             .Select(MapToDto);
     }
