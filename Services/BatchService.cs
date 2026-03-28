@@ -87,7 +87,7 @@ public class BatchService : IBatchService
 
         var transaction = new StockTransaction
         {
-            BatchId = batch.Id,
+            Batch = batch,
             Type = TransactionType.Received,
             Quantity = dto.Quantity,
             Reference = $"Initial receipt - Batch {dto.BatchNumber}",
@@ -95,9 +95,6 @@ public class BatchService : IBatchService
             TransactionDate = DateTime.UtcNow
         };
 
-        await _context.SaveChangesAsync();
-
-        transaction.BatchId = batch.Id;
         _context.StockTransactions.Add(transaction);
         await _context.SaveChangesAsync();
 
@@ -135,6 +132,8 @@ public class BatchService : IBatchService
                 "Cannot delete an active batch with remaining stock. Change status or adjust quantity first.");
         }
 
+        var transactions = await _context.StockTransactions.Where(t => t.BatchId == id).ToListAsync();
+        _context.StockTransactions.RemoveRange(transactions);
         _context.Batches.Remove(batch);
         await _context.SaveChangesAsync();
 

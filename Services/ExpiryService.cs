@@ -16,6 +16,9 @@ public class ExpiryService : IExpiryService
 
     public async Task<ExpiryReportDto> GetExpiryReportAsync(int warningDays = 90, int criticalDays = 30)
     {
+        if (warningDays < criticalDays)
+            throw new ArgumentException($"warningDays ({warningDays}) must be >= criticalDays ({criticalDays}).");
+
         var now = DateTime.UtcNow.Date;
         var criticalDate = now.AddDays(criticalDays);
         var warningDate = now.AddDays(warningDays);

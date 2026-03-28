@@ -117,10 +117,10 @@ public class MedicationService : IMedicationService
 
         if (medication == null) return false;
 
-        if (medication.Batches.Any(b => b.Status == BatchStatus.Active && b.Quantity > 0))
+        if (medication.Batches.Any())
         {
             throw new InvalidOperationException(
-                "Cannot delete medication with active stock. Dispose or transfer batches first.");
+                "Cannot delete medication that has associated batches. Remove all batches first.");
         }
 
         _context.Medications.Remove(medication);
