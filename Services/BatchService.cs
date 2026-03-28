@@ -179,6 +179,7 @@ public class BatchService : IBatchService
 
             case TransactionType.Adjusted:
                 batch.Quantity = dto.Quantity;
+                if (batch.Status == BatchStatus.Depleted && dto.Quantity > 0) batch.Status = BatchStatus.Active;
                 break;
         }
 

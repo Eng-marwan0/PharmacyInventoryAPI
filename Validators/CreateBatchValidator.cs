@@ -32,6 +32,25 @@ public class CreateBatchValidator : AbstractValidator<CreateBatchDto>
     }
 }
 
+public class UpdateBatchValidator : AbstractValidator<UpdateBatchDto>
+{
+    public UpdateBatchValidator()
+    {
+        RuleFor(x => x.Quantity)
+            .GreaterThanOrEqualTo(0).WithMessage("Quantity must be non-negative.");
+
+        RuleFor(x => x.UnitPrice)
+            .GreaterThan(0).WithMessage("Unit price must be greater than zero.");
+
+        RuleFor(x => x.Supplier)
+            .NotEmpty().WithMessage("Supplier is required.")
+            .MaximumLength(200);
+
+        RuleFor(x => x.Status)
+            .IsInEnum().WithMessage("Invalid batch status.");
+    }
+}
+
 public class CreateStockTransactionValidator : AbstractValidator<CreateStockTransactionDto>
 {
     public CreateStockTransactionValidator()
